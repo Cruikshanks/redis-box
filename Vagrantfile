@@ -5,6 +5,11 @@
 # rubocop:disable StringLiterals
 # rubocop:disable LineLength
 
+# Confirm the host port to bind to. The default of 6379 is used if the env var
+# is not set, but this allows us to be flexible (for example where a port
+# conflict occurs)
+host_port = ENV["REDISBOX_HOST_PORT"] || 6379
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -25,18 +30,8 @@ Vagrant.configure(2) do |config|
   end
 
   # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 6379, host: 6379
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
+  # within the machine from a port on the host machine.
+  config.vm.network "forwarded_port", guest: 6379, host: host_port
 
   # General provisioning of the box. Ensure time is set correctly and do an
   # initial apt-get update, plus install packages commonly needed by all boxes
