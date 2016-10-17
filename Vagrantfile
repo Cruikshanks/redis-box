@@ -43,8 +43,4 @@ Vagrant.configure(2) do |config|
 
   # Specific provisioning of the box
   config.vm.provision "shell", name: "redis", path: "buildsteps/redis.sh"
-
-  config.vm.provision "shell", name: "startup", run: "always", inline: <<-SHELL
-    service redis-server restart
-  SHELL
 end
